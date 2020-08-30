@@ -46,16 +46,13 @@ const main = async () => {
   }
 
   app.get('/', async (req, res) => {
-    try {
-      const status = await getLatestStatus()
-      const location = await getLatestLocation()
-      res.json({
-        ...status,
-        ...location,
-      })
-    } catch (e) {
-      res.sendStatus(400)
-    }
+    const status = await getLatestStatus()
+    const location = await getLatestLocation()
+    console.log(status, location)
+    res.json({
+      ...status,
+      ...location,
+    })
   })
 
   app.listen(port, () => {
