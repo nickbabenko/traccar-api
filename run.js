@@ -14,7 +14,7 @@ const main = async () => {
   })
 
   const getLatestStatus = async () => {
-    const [rows] = connection.query(`
+    const [rows] = connection.execute(`
         SELECT attributes
         FROM tc_positions
         WHERE deviceid = ?
@@ -34,7 +34,7 @@ const main = async () => {
   }
 
   const getLatestLocation = async () => {
-    const [rows] = connection.query(`
+    const [rows] = connection.execute(`
       SELECT latitude, longitude, fixtime
       FROM tc_positions
       WHERE deviceid = ?
