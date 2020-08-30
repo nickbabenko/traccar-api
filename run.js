@@ -17,7 +17,7 @@ const main = async () => {
     const [rows] = connection.query(`
         SELECT attributes
         FROM tc_positions
-        WHERE device_id = ?
+        WHERE deviceid = ?
           AND attributes LIKE '%batteryLevel%' 
           AND attributes LIKE '%rssi%'
         ORDER BY id DESC
@@ -35,9 +35,9 @@ const main = async () => {
 
   const getLatestLocation = async () => {
     const [rows] = connection.query(`
-      SELECT latitude, longitude
+      SELECT latitude, longitude, fixtime
       FROM tc_positions
-      WHERE device_id = ?
+      WHERE deviceid = ?
       ORDER BY id DESC
       LIMIT 1`,
       [deviceId],
