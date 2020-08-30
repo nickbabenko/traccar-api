@@ -35,7 +35,7 @@ const main = async () => {
 
   const getLatestLocation = async () => {
     const [rows] = await connection.execute(`
-      SELECT latitude, longitude, fixtime
+      SELECT latitude, longitude, servertime
       FROM tc_positions
       WHERE deviceid = ?
       ORDER BY id DESC
