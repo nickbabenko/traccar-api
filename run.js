@@ -81,10 +81,13 @@ const main = async () => {
 
   const addPosition = async (deviceId, data) => {
     console.log(`${stamp()}addPosition for device: ${deviceId}. latitude: ${data.latitude}, longitude: ${data.longitude}, date: ${data.date}`)
+    const date = data.date
+      .replace('T', ' ')
+      .replace('.000Z', '')
     await connection.execute(`
       INSERT INTO positions (device_id, latitude, longitude, created_at)
       VALUES (?, ?, ?, ?)
-    `, [ deviceId, data.latitude, data.longitude, data.date])
+    `, [ deviceId, data.latitude, data.longitude, date])
   }
 
   app.get('/', async (req, res) => {
