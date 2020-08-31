@@ -1,4 +1,4 @@
 #!/bin/bash
 
-docker build -t nickbabenko/traccar-api:latest .
-sudo docker push nickbabenko/traccar-api:latest
+docker build -t nickbabenko/gps-tracker:latest .
+sudo docker push nickbabenko/gps-tracker:latest
