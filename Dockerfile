@@ -6,7 +6,7 @@ COPY package*.json ./
 COPY yarn.lock ./
 RUN yarn
 
-COPY run.js .
+COPY . .
 
 EXPOSE 8080
 
