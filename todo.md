@@ -1,0 +1,3 @@
+- [ ] Add support for migrations
+- [ ] Re-organise `run.js` - *Separate socket/http servers*
+- [ ] Create route tracking map
