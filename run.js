@@ -85,7 +85,7 @@ const main = async () => {
       UPDATE devices
       SET updated_at = NOW(), online = ?
       WHERE id = ?
-    `, [ data.online, id ])
+    `, [ online, id ])
   }
 
   const setDeviceOnline = async (id) => {
