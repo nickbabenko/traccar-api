@@ -74,9 +74,9 @@ const main = async () => {
     console.log(`${stamp()}updateDevice ${id}. battery level: ${data.voltageLevel}, rssi: ${data.gsmSigStrength}`)
     await connection.execute(`
       UPDATE devices
-      SET battery_level = ?, rssi = ?, updated_at = NOW(), online = ?
+      SET battery_level = ?, rssi = ?, updated_at = NOW()
       WHERE id = ?
-    `, [ data.voltageLevel, data.gsmSigStrength, data.online, id ])
+    `, [ data.voltageLevel, data.gsmSigStrength, id ])
   }
 
   const setDeviceOnlineStatus = async (id, online) => {
