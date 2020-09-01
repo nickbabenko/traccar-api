@@ -35,7 +35,7 @@ const main = async () => {
 
   const getLatestLocation = async (deviceId) => {
     const [rows] = await connection.execute(`
-      SELECT p.latitude, p.longitude, p.created_at, d.battery_level, d.rssi
+      SELECT p.latitude, p.longitude, p.created_at, d.battery_level, d.rssi, d.online
       FROM positions p
       INNER JOIN devices d ON d.id = p.device_id
       WHERE p.device_id = ?
@@ -74,9 +74,26 @@ const main = async () => {
     console.log(`${stamp()}updateDevice ${id}. battery level: ${data.voltageLevel}, rssi: ${data.gsmSigStrength}`)
     await connection.execute(`
       UPDATE devices
-      SET battery_level = ?, rssi = ?, updated_at = NOW()
+      SET battery_level = ?, rssi = ?, updated_at = NOW(), online = ?
       WHERE id = ?
-    `, [ data.voltageLevel, data.gsmSigStrength, id ])
+    `, [ data.voltageLevel, data.gsmSigStrength, data.online, id ])
+  }
+
+  const setDeviceOnlineStatus = async (id, online) => {
+    console.log(`${stamp()}setDeviceOnlineStatus ${id}. ${online}`)
+    await connection.execute(`
+      UPDATE devices
+      SET updated_at = NOW(), online = ?
+      WHERE id = ?
+    `, [ data.online, id ])
+  }
+
+  const setDeviceOnline = async (id) => {
+    await setDeviceOnlineStatus(id, true)
+  }
+
+  const setDeviceOffline = async (id) => {
+    await setDeviceOnlineStatus(id, false)
   }
 
   const addPosition = async (deviceId, data) => {
@@ -124,6 +141,7 @@ const main = async () => {
         switch (message.event.string) {
           case 'login':
             device = await createDevice(message)
+            setDeviceOnline(device.id)
             break
           case 'status':
             await updateDevice(device.id, message)
@@ -136,6 +154,12 @@ const main = async () => {
   
       gt06.clearMsgBuffer()
     })
+
+    client.on('end', async () => {
+      if (device) {
+        await setDeviceOffline(device.id)
+      }
+    });
   })
 
   app.listen(port, () => {

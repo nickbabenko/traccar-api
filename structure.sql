@@ -3,6 +3,7 @@ CREATE TABLE IF NOT EXISTS `devices` (
   `imei` varchar(15) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '',
   `battery_level` int(3) NOT NULL DEFAULT '0',
   `rssi` int(1) NOT NULL DEFAULT '0',
+  `online` TINTINT(1) NOT NULL DEFAULT('0'),
   `created_at` datetime NOT NULL,
   `updated_at` datetime NOT NULL,
   PRIMARY KEY (`id`),
